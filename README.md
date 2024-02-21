@@ -6,8 +6,9 @@ Removing uneeded columns (category and links) and characters (currency character
 Renamed columns
 Added new columns such as main_category and smallest_category
 
-Plan:
-3 Tables
-Products, Users, Reviews
+Created 3 tables called products, reviews, and users
+
+created a table from reviews to get individual reviews and their corresponding review id and user id
+as this dataset had multiple reviews in each row
 
 
