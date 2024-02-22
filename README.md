@@ -11,7 +11,6 @@ Added new columns such as main_category and smallest_category
 Created 3 tables called products, reviews, and users
 
 Created a table from reviews and users to get individual reviews and users
-
-
+![DrawSQL Diagram](https://github.com/yuehangit/AmazonSalesAnalysis/blob/main/Database.png)
 
 
