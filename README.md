@@ -13,3 +13,6 @@ Created 3 tables called products, reviews, and users
 Created a table from reviews and users to get individual reviews and users
 
 
+https://drawsql.app/teams/projects-46/diagrams/amazon-database/embed
+
+
