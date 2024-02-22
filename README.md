@@ -1,4 +1,5 @@
 Original data from https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download
+Using PostgreSQL
 Analyzing Amazon sales data using SQL
 Cleaned and manipulated data.
 Changes include:
