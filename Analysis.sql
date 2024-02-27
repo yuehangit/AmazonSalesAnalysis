@@ -24,6 +24,52 @@ WHERE rating > 4.5 AND rating_count >1000
 ORDER BY rating DESC;
 
 /*
+What category should we invest in more
+
+As the dataset does not show how many of each product was sold
+I will be using the amount of ratings done as an idea of how much
+were sold as I am assuming only those who buy the product can
+rate it. 
+
+Based on the average rating for each category, the total amount of ratings 
+for each category, and then looking at the top 5 rated products of each
+category I will advise which category and products to expand in. 
+There is only one product in the Toys&Games category but this product alone has
+a 4.3 ratingwith 15867 raters signifying and interest in ColouringPens&Markers
+products. I would suggest adding more pens to the 
+Toys&Games category. Similarily I would recommend adding more kitchen scales
+or other scales to the Health&PersonalCare category.There is already a demand
+for kitchen products as seen in Home&Kitchen and electronics is the most popular
+category. Furthermore, it would be beneficial to look at investing more in adding
+higher quality microphones (MusicalInstruments category) as there is a demand for them but
+the average rating is below 4 stars.
+
+
+*/
+
+WITH ranked_products AS (
+  SELECT 
+    main_category,
+    smallest_category,
+	AVG(rating) OVER (PARTITION BY main_category) AS avg_rating,
+    rating, rating_count,
+	COUNT(product_name) OVER (PARTITION BY main_category) AS total_products,
+	SUM(rating_count) OVER (PARTITION BY main_category) AS total_ratings,
+    ROW_NUMBER() OVER (PARTITION BY main_category ORDER BY rating DESC) AS rank,
+	product_name
+  FROM products
+  WHERE rating_count > 100
+)
+SELECT 
+  main_category AS category,
+  rating, ROUND(avg_rating,1) AS avg_category_rating, rating_count
+  AS individual_ratings, total_ratings,
+  total_products, smallest_category AS item_type, product_name
+FROM ranked_products
+WHERE rank <= 5 AND rating IS NOT NULL
+ORDER BY main_category, rating, rank;
+
+/*
 What are our lowest rated products?
 
 (Only looking at items with more than 100 reviews)
@@ -40,6 +86,7 @@ LIMIT 100;
 
 /*
 What is the top rated main product category?
+
 The top rated category is OfficeProducts and Toys&Games
 tied at 4.3 stars
 */
@@ -77,6 +124,7 @@ ORDER BY avg_discount_percent;
 
 /*
 How much of our userbase is rating products?
+
 About 84.93% of the userbase is rating products
 */
 SELECT COUNT(DISTINCT r.u_id) as reviewers, ROUND(100*COUNT(DISTINCT r.u_id)::numeric/COUNT(u.u_id),2)
@@ -87,6 +135,7 @@ RIGHT JOIN users as u ON r.u_id = u.u_id;
 
 /*
 What products lack ratings
+
 If we had information on the amount of each product sold
 I would compare the amount of ratings to that.
 However since we don't have that information I will 
